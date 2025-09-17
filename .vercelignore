@@ -1,0 +1,14 @@
+# Exclude problematic directories from Vercel build
+.git
+.git/**
+.next
+.next/**
+node_modules
+node_modules/**
+*.log
+*.tmp
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
