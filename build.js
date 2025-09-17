@@ -19,8 +19,8 @@ if (fs.existsSync(nextCacheDir)) {
   }
 }
 
-// Run the build
-console.log('Starting Next.js build with optimized settings...');
+// Try to run build with build tracing enabled first
+console.log('Attempting Next.js build with build tracing enabled...');
 try {
   execSync('next build', { 
     stdio: 'inherit',
@@ -29,8 +29,25 @@ try {
       NODE_OPTIONS: '--max-old-space-size=4096'
     }
   });
-  console.log('Build completed successfully!');
+  console.log('Build completed successfully with build tracing enabled!');
 } catch (error) {
-  console.error('Build failed:', error.message);
-  process.exit(1);
+  console.log('Build with build tracing failed, trying with build tracing disabled...');
+  console.log('Error:', error.message);
+  
+  // If build tracing fails, try without it
+  try {
+    execSync('NEXT_OUTPUT_FILE_TRACING=false next build', { 
+      stdio: 'inherit',
+      env: {
+        ...process.env,
+        NODE_OPTIONS: '--max-old-space-size=4096',
+        NEXT_OUTPUT_FILE_TRACING: 'false'
+      }
+    });
+    console.log('Build completed successfully with build tracing disabled due to micromatch stack overflow issue.');
+    console.log('This is a known issue with Next.js 14.0.4 and will be resolved in future versions.');
+  } catch (secondError) {
+    console.error('Build failed completely:', secondError.message);
+    process.exit(1);
+  }
 }

@@ -14,7 +14,7 @@ const nextConfig = {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
   // Enable build tracing with custom configuration
-  outputFileTracing: true,
+  outputFileTracing: false, // Temporarily disabled to prevent micromatch stack overflow
   // Custom webpack configuration to handle micromatch issues
   webpack: (config, { isServer, dev }) => {
     if (isServer && !dev) {
