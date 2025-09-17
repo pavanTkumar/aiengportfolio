@@ -19,7 +19,27 @@ if (fs.existsSync(nextCacheDir)) {
   }
 }
 
-// Try to run build with build tracing enabled first
+// Restore micromatch file if it's corrupted
+console.log('Checking and restoring micromatch file...');
+try {
+  const micromatchPath = path.join(process.cwd(), 'node_modules', 'next', 'dist', 'compiled', 'micromatch', 'index.js');
+  if (fs.existsSync(micromatchPath)) {
+    let content = fs.readFileSync(micromatchPath, 'utf8');
+    
+    // Check if file is corrupted (contains our patch or parse is not defined)
+    if (content.includes('// Stack overflow protection patch') || content.includes('const originalParse = parse;')) {
+      console.log('Micromatch file is corrupted, reinstalling dependencies...');
+      execSync('npm install', { stdio: 'inherit' });
+      console.log('Dependencies reinstalled, micromatch file restored');
+    } else {
+      console.log('Micromatch file is clean');
+    }
+  }
+} catch (error) {
+  console.log('Micromatch check failed, continuing with build...');
+}
+
+// Try to run build with build tracing enabled
 console.log('Attempting Next.js build with build tracing enabled...');
 try {
   execSync('next build', { 
