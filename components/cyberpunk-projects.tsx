@@ -472,7 +472,7 @@ export function CyberpunkProjects() {
                     </motion.button>
                   )}
 
-                  {selectedProject.caseStudy && (
+                  {'caseStudy' in selectedProject && selectedProject.caseStudy && (
                     <motion.a
                       href={selectedProject.caseStudy}
                       target="_blank"
