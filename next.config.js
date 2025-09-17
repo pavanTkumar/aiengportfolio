@@ -13,27 +13,8 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
-  // Enable build tracing with optimized configuration
+  // Force enable build tracing - this is the key setting
   outputFileTracing: true,
-  // Optimize webpack for better memory usage
-  webpack: (config, { isServer, dev }) => {
-    if (isServer && !dev) {
-      // Optimize server-side build for production
-      config.optimization = {
-        ...config.optimization,
-        splitChunks: false,
-        minimize: true,
-      };
-      
-      // Increase memory limits for build tracing
-      config.performance = {
-        ...config.performance,
-        maxAssetSize: 1000000,
-        maxEntrypointSize: 1000000,
-      };
-    }
-    return config;
-  },
 }
 
 module.exports = nextConfig
