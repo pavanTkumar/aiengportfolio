@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
         console.log('SMTP connection verified with config:', config.host, config.port);
         break;
       } catch (error) {
-        console.log('SMTP config failed:', config.host, config.port, error.message);
+        console.log('SMTP config failed:', config.host, config.port, error instanceof Error ? error.message : String(error));
         lastError = error;
         continue;
       }
@@ -156,7 +156,7 @@ export async function POST(request: NextRequest) {
     }
     
     return NextResponse.json(
-      { error: errorMessage, details: error.message },
+      { error: errorMessage, details: error instanceof Error ? error.message : String(error) },
       { status: 500 }
     );
   }
