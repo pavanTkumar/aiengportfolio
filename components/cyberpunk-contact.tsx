@@ -156,7 +156,7 @@ export function CyberpunkContact() {
               {/* Name Field */}
               <div className="relative">
                 <label className="block font-mono text-sm text-terminal-green mb-2">
-                  > name
+                  &gt; name
                 </label>
                 <motion.input
                   type="text"
@@ -183,7 +183,7 @@ export function CyberpunkContact() {
               {/* Email Field */}
               <div className="relative">
                 <label className="block font-mono text-sm text-terminal-green mb-2">
-                  > email
+                  &gt; email
                 </label>
                 <motion.input
                   type="email"
@@ -210,7 +210,7 @@ export function CyberpunkContact() {
               {/* Subject Field */}
               <div className="relative">
                 <label className="block font-mono text-sm text-terminal-green mb-2">
-                  > subject
+                  &gt; subject
                 </label>
                 <motion.input
                   type="text"
@@ -237,7 +237,7 @@ export function CyberpunkContact() {
               {/* Message Field */}
               <div className="relative">
                 <label className="block font-mono text-sm text-terminal-green mb-2">
-                  > message
+                  &gt; message
                 </label>
                 <motion.textarea
                   name="message"
