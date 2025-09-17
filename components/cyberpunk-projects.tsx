@@ -421,7 +421,6 @@ export function CyberpunkProjects() {
                     </motion.button>
                   )}
 
-                  {/* Live Demo Button */}
                   {selectedProject.liveUrl ? (
                     <motion.a
                       href={selectedProject.liveUrl}
