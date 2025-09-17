@@ -13,10 +13,19 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
-  // Force enable build tracing - this is the key setting
+  // Enable build tracing with specific configuration to prevent stack overflow
   outputFileTracing: true,
-  // Ensure build tracing is not disabled by Vercel
-  output: undefined,
+  // Configure build tracing to prevent micromatch stack overflow
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      // Optimize for build tracing
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: false,
+      };
+    }
+    return config;
+  },
 }
 
 module.exports = nextConfig

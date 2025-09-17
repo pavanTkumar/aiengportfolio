@@ -1,4 +1,4 @@
-# Exclude problematic directories from Vercel build
+# Exclude problematic directories from Vercel build to prevent micromatch stack overflow
 .git
 .git/**
 .next
@@ -12,3 +12,10 @@ node_modules/**
 .env.development.local
 .env.test.local
 .env.production.local
+# Exclude deeply nested directories that might cause micromatch issues
+**/node_modules/**
+**/.git/**
+**/.next/**
+**/coverage/**
+**/dist/**
+**/build/**
