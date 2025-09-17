@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 import nodemailer from 'nodemailer';
 
 export async function POST(request: NextRequest) {

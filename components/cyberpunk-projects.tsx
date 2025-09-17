@@ -168,7 +168,7 @@ const categories = ['all', 'AI/ML', 'Mobile'];
 export function CyberpunkProjects() {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
-  const [selectedProject, setSelectedProject] = useState<typeof projectsData[0] | null>(null);
+  const [selectedProject, setSelectedProject] = useState<any>(null);
   const [filter, setFilter] = useState('all');
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
@@ -376,7 +376,7 @@ export function CyberpunkProjects() {
                 <div className="mb-6">
                   <h4 className="font-terminal text-xl text-cyan mb-3">Features:</h4>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    {selectedProject.features.map((feature, i) => (
+                    {selectedProject.features.map((feature: string, i: number) => (
                       <li key={i} className="flex items-start text-text-light">
                         <span className="text-terminal-green mr-2 mt-1">▶</span>
                         {feature}
@@ -389,7 +389,7 @@ export function CyberpunkProjects() {
                 <div className="mb-6">
                   <h4 className="font-terminal text-xl text-cyan mb-3">Technologies:</h4>
                   <div className="flex flex-wrap gap-3">
-                    {selectedProject.technologies.map((tech) => (
+                    {selectedProject.technologies.map((tech: string) => (
                       <span key={tech} className="px-3 py-2 bg-neural-800 border border-terminal-green rounded-lg text-sm font-mono text-terminal-green">
                         {tech}
                       </span>
@@ -400,7 +400,7 @@ export function CyberpunkProjects() {
                 {/* Links */}
                 <div className="flex flex-wrap gap-4">
                   {/* GitHub Code Button */}
-                  {selectedProject.githubUrl ? (
+                  {selectedProject.githubUrl && typeof selectedProject.githubUrl === 'string' ? (
                     <motion.a
                       href={selectedProject.githubUrl}
                       target="_blank"
@@ -421,7 +421,7 @@ export function CyberpunkProjects() {
                     </motion.button>
                   )}
 
-                  {selectedProject.liveUrl ? (
+                  {selectedProject.liveUrl && typeof selectedProject.liveUrl === 'string' && (
                     <motion.a
                       href={selectedProject.liveUrl}
                       target="_blank"
@@ -432,7 +432,8 @@ export function CyberpunkProjects() {
                     >
                       Live Demo
                     </motion.a>
-                  ) : selectedProject.storeLinks ? (
+                  )}
+                  {!selectedProject.liveUrl && 'storeLinks' in selectedProject && selectedProject.storeLinks && (
                     // Special handling for apps with store links
                     <div className="flex flex-col gap-2">
                       <span className="text-sm text-text-light mb-2">Download App:</span>
@@ -461,7 +462,8 @@ export function CyberpunkProjects() {
                         </motion.a>
                       </div>
                     </div>
-                  ) : (
+                  )}
+                  {!selectedProject.liveUrl && !('storeLinks' in selectedProject) && (
                     <motion.button
                       disabled
                       className="cyberpunk-btn-disabled px-6 py-2 opacity-50 cursor-not-allowed"
