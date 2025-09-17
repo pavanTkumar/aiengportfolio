@@ -34,19 +34,46 @@ try {
   console.log('Build with build tracing failed, trying with build tracing disabled...');
   console.log('Error:', error.message);
   
-  // If build tracing fails, try without it
+  // If build tracing fails, temporarily modify next.config.js to disable it
+  const configPath = path.join(process.cwd(), 'next.config.js');
+  const backupPath = path.join(process.cwd(), 'next.config.js.backup');
+  
   try {
-    execSync('NEXT_OUTPUT_FILE_TRACING=false next build', { 
+    // Backup original config
+    const originalConfig = fs.readFileSync(configPath, 'utf8');
+    fs.writeFileSync(backupPath, originalConfig);
+    
+    // Modify config to disable build tracing
+    const modifiedConfig = originalConfig.replace(
+      'outputFileTracing: true,',
+      'outputFileTracing: false, // Temporarily disabled due to micromatch stack overflow'
+    );
+    fs.writeFileSync(configPath, modifiedConfig);
+    
+    console.log('Temporarily disabled build tracing in next.config.js...');
+    
+    // Run build with modified config
+    execSync('next build', { 
       stdio: 'inherit',
       env: {
         ...process.env,
-        NODE_OPTIONS: '--max-old-space-size=4096',
-        NEXT_OUTPUT_FILE_TRACING: 'false'
+        NODE_OPTIONS: '--max-old-space-size=4096'
       }
     });
-    console.log('Build completed successfully with build tracing disabled due to micromatch stack overflow issue.');
+    
+    // Restore original config
+    fs.writeFileSync(configPath, originalConfig);
+    fs.unlinkSync(backupPath);
+    
+    console.log('Build completed successfully with build tracing temporarily disabled due to micromatch stack overflow issue.');
     console.log('This is a known issue with Next.js 14.0.4 and will be resolved in future versions.');
   } catch (secondError) {
+    // Restore original config if it exists
+    if (fs.existsSync(backupPath)) {
+      const originalConfig = fs.readFileSync(backupPath, 'utf8');
+      fs.writeFileSync(configPath, originalConfig);
+      fs.unlinkSync(backupPath);
+    }
     console.error('Build failed completely:', secondError.message);
     process.exit(1);
   }
