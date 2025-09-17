@@ -30,7 +30,7 @@
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.294.0",
     "maath": "^0.10.4",
-    "next": "14.0.4",
+    "next": "14.2.5",
     "next-themes": "^0.2.1",
     "nodemailer": "^7.0.6",
     "postcss": "^8.4.32",
@@ -55,6 +55,6 @@
   "devDependencies": {
     "@types/three": "^0.160.0",
     "eslint": "8.56.0",
-    "eslint-config-next": "14.0.4"
+    "eslint-config-next": "14.2.5"
   }
 }
