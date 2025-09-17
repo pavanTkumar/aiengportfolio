@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!transporter) {
-      throw new Error(`All SMTP configurations failed. Last error: ${lastError?.message}`);
+      throw new Error(`All SMTP configurations failed. Last error: ${lastError instanceof Error ? lastError.message : String(lastError)}`);
     }
 
     // Email content
