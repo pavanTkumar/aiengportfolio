@@ -15,6 +15,8 @@ const nextConfig = {
   },
   // Force enable build tracing - this is the key setting
   outputFileTracing: true,
+  // Ensure build tracing is not disabled by Vercel
+  output: undefined,
 }
 
 module.exports = nextConfig
