@@ -13,6 +13,8 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
+  // Disable build traces to prevent stack overflow
+  outputFileTracing: false,
 }
 
 module.exports = nextConfig
